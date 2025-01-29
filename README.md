@@ -1,124 +1,107 @@
-# BTC Price and MT5 Equity Dashboard
+# BTC and Equity Dashboard
 
-A real-time dashboard application that displays Bitcoin (BTC) price from Binance and MetaTrader 5 account equity, built with Flask and Plotly.
+A real-time dashboard that displays Bitcoin prices from Binance and MetaTrader 5 account equity, built with Flask and interactive Plotly charts.
 
-## Features
+## 🌟 Features
 
-- Real-time BTC price updates from Binance API (0.1-second intervals)
-- Live MT5 account equity tracking (0.1-second intervals)
-- Separate interactive charts for BTC price and MT5 equity
-- Visual BTC position indicator (Buy/Sell status)
-- Responsive design for desktop and mobile devices
+- Real-time BTC price updates from Binance
+- Live MT5 account equity tracking
+- Interactive charts with Plotly
+- BTC position indicator (Buy/Sell/No Position)
+- Responsive design for all devices
+- Thread-safe data handling
+- Optimized performance with background updates
 
-## Prerequisites
+## 🚀 Quick Start
 
-- Python 3.7 or higher
-- MetaTrader 5 terminal installed and configured
-- Active internet connection for Binance API access
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/DeepanshuTIET/BTC-and-equity.git
+   cd BTC-and-equity
+   ```
 
-## Installation
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-1. Clone the repository:
-```bash
-git clone <your-repository-url>
-cd <repository-name>
-```
+3. **Configure MT5 Credentials**
+   Create a `.env` file in the root directory:
+   ```env
+   MT5_LOGIN=your_login_number
+   MT5_PASSWORD=your_password
+   MT5_SERVER=your_server_name
+   ```
 
-2. Create and activate a virtual environment:
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
+4. **Run the application**
+   ```bash
+   python app.py
+   ```
 
-# Linux/MacOS
-python -m venv venv
-source venv/bin/activate
-```
+5. **Access the dashboard**
+   Open `http://127.0.0.1:5000` in your web browser
 
-3. Install required packages:
-```bash
-pip install -r requirements.txt
-```
+## 📦 Dependencies
 
-## Configuration
+- Flask
+- MetaTrader5
+- Plotly
+- Pandas
+- Requests
+- python-dotenv
+- Threading (Python standard library)
 
-1. Ensure your MetaTrader 5 terminal is:
-   - Installed and running
-   - Logged in with valid credentials
-   - Properly configured for trading
+## 🔧 Configuration
 
-2. The application will automatically connect to:
-   - Binance public API for BTC prices
-   - Local MT5 terminal for account equity and position data
+The application uses environment variables for MT5 configuration:
+- `MT5_LOGIN`: Your MT5 account login number
+- `MT5_PASSWORD`: Your MT5 account password
+- `MT5_SERVER`: Your MT5 server name
 
-## Usage
+## 🎯 Features in Detail
 
-1. Start the Flask application:
-```bash
-python app.py
-```
+### Real-time Data Updates
+- BTC price updates every 0.5 seconds
+- MT5 equity tracking with live updates
+- Position status monitoring for BTC trades
 
-2. Open your web browser and navigate to:
-```
-http://127.0.0.1:5000
-```
+### Interactive Charts
+- Separate charts for BTC price and MT5 equity
+- Real-time updates with smooth animations
+- Responsive design that adapts to screen size
 
-3. The dashboard will display:
-   - Current BTC price in USDT
-   - Current MT5 account equity
-   - Real-time charts for both metrics
-   - Current BTC position status (Buy/Sell/No Position)
+### Performance Optimizations
+- Background thread for data updates
+- Thread-safe data handling
+- Efficient MT5 connection management
+- Optimized chart updates (every 2 seconds)
+- Reduced memory footprint
 
-## Dashboard Components
+## 🔒 Security
 
-### Price Display
-- Real-time BTC price from Binance
-- Account equity from MT5
+- Sensitive credentials stored in `.env` file
+- `.env` file excluded from version control
+- Secure MT5 connection handling
 
-### Charts
-- Interactive BTC price chart
-- Interactive MT5 equity chart
-- Both charts update every 0.1 seconds
-
-### Position Indicator
-- Color-coded position status
-  - Green: Buy position
-  - Red: Sell position
-  - Grey: No position
-- Visual dot indicator
-- Clear position text display
-
-## Technical Details
-
-- **Frontend**: HTML5, CSS3, JavaScript with jQuery
-- **Backend**: Python Flask
-- **Charts**: Plotly.js
-- **Data Sources**:
-  - Binance API for BTC prices
-  - MetaTrader 5 Python package for trading data
-- **Update Frequency**: 0.1 seconds for all real-time data
-
-## Error Handling
-
-The application includes comprehensive error handling for:
-- Binance API connection issues
-- MT5 terminal connection problems
-- Data processing errors
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## License
+## 📝 Repository Information
+
+- **Owner**: DeepanshuTIET
+- **Repository**: [BTC-and-equity](https://github.com/DeepanshuTIET/BTC-and-equity)
+- **Branch**: main
+- **Visibility**: Public
+
+## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgments
+## ⚠️ Disclaimer
 
-- Binance for providing the cryptocurrency price API
-- MetaQuotes for the MetaTrader 5 platform and Python integration
-- Plotly team for the interactive charting library
+This application is for educational purposes only. Trading cryptocurrencies and forex carries significant risk. Always do your own research and trade responsibly.
