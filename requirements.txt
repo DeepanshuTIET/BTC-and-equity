@@ -1,0 +1,7 @@
+Flask==3.0.0
+requests==2.31.0
+matplotlib==3.8.2
+pandas==2.1.4
+MetaTrader5==5.0.4731
+plotly==5.18.0
+python-dotenv==1.0.0

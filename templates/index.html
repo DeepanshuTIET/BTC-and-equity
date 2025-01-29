@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Price and MT5 Equity Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cryptocurrency Dashboard</h1>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>BTC Price</h2>
+                <p class="price" id="btc-price">{{ btc_price|round(2) if btc_price else 'N/A' }} USDT</p>
+            </div>
+
+            <div class="card">
+                <h2>MT5 Equity</h2>
+                <p class="equity" id="equity">{{ equity|round(2) if equity else 'N/A' }} USD</p>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-card">
+                <div id="btc-chart"></div>
+            </div>
+            <div class="chart-card">
+                <div id="equity-chart"></div>
+            </div>
+        </div>
+
+        <div class="position-card">
+            <div class="position-status {{ btc_position.lower() if btc_position else 'no-position' }}" id="position-container">
+                <h2>BTC Position Status</h2>
+                <div class="position-indicator">
+                    <span class="position-dot"></span>
+                    <span class="position-text" id="btc-position">
+                        {{ btc_position if btc_position else 'No Position' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the charts
+        {% if charts %}
+        var btcChartData = {{ charts.btc_chart | safe }};
+        var equityChartData = {{ charts.equity_chart | safe }};
+        Plotly.newPlot('btc-chart', btcChartData.data, btcChartData.layout);
+        Plotly.newPlot('equity-chart', equityChartData.data, equityChartData.layout);
+        {% endif %}
+
+        // Function to update dashboard data
+        function updateDashboard() {
+            $.get('/update_data', function(data) {
+                // Update price and equity with animation
+                if (data.btc_price) {
+                    $('#btc-price').fadeOut(100, function() {
+                        $(this).text(data.btc_price.toFixed(2) + ' USDT').fadeIn(100);
+                    });
+                }
+                if (data.equity) {
+                    $('#equity').fadeOut(100, function() {
+                        $(this).text(data.equity.toFixed(2) + ' USD').fadeIn(100);
+                    });
+                }
+                
+                // Update position with animation
+                if (data.btc_position !== null) {
+                    const newPosition = data.btc_position;
+                    const container = $('#position-container');
+                    const positionText = $('#btc-position');
+                    
+                    container.fadeOut(100, function() {
+                        // Remove all position classes
+                        container.removeClass('buy sell no-position');
+                        // Add new position class
+                        container.addClass(newPosition.toLowerCase());
+                        // Update text
+                        positionText.text(newPosition);
+                        container.fadeIn(100);
+                    });
+                } else {
+                    const container = $('#position-container');
+                    container.fadeOut(100, function() {
+                        container.removeClass('buy sell').addClass('no-position');
+                        $('#btc-position').text('No Position');
+                        container.fadeIn(100);
+                    });
+                }
+                
+                // Update charts if new data is available
+                if (data.charts) {
+                    var btcChartData = JSON.parse(data.charts.btc_chart);
+                    var equityChartData = JSON.parse(data.charts.equity_chart);
+                    Plotly.react('btc-chart', btcChartData.data, btcChartData.layout);
+                    Plotly.react('equity-chart', equityChartData.data, equityChartData.layout);
+                }
+            });
+        }
+
+        // Update dashboard every 500ms (0.5 seconds)
+        setInterval(updateDashboard, 500);
+    </script>
+</body>
+</html>
